@@ -1,5 +1,5 @@
 
-# 1) الاستيرادات
+# 1) Imports
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,7 +12,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.cluster import KMeans
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, adjusted_rand_score
 
-# 2) تحميل وتنظيم بيانات Iris
+# 2) Loading Iris
 iris = load_iris()
 X = pd.DataFrame(iris.data, columns=[c.replace(' (cm)', '').replace(' ', '_') for c in iris.feature_names])
 y = pd.Series(iris.target, name='Target')
@@ -60,7 +60,7 @@ log_reg.fit(X_train, y_train)
 y_pred_log = log_reg.predict(X_test)
 log_acc = accuracy_score(y_test, y_pred_log)
 
-# 9) تقارير التقييم
+# 9)Evaluation reports
 
 print("=== Missing values per column ===")
 print(missing_per_col.to_string(), "\n")
@@ -80,7 +80,6 @@ kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
 kmeans.fit(X_scaled)
 clusters = kmeans.labels_
 
-# مقارنة الكلاسترز بالليبلز الحقيقية باستخدام ARI
 ari = adjusted_rand_score(y_clean, clusters)
 print(f"\nKMeans Adjusted Rand Index vs true labels: {ari:.3f}")
 
@@ -88,23 +87,23 @@ cluster_counts = pd.Series(clusters).value_counts().sort_index()
 print("\nSamples per Cluster:")
 print(cluster_counts.to_string())
 
-# 11) رسومات توضيحية
+# 11) Illustrations
 
 plt.figure(figsize=(12, 4))
 
-# (أ) التصنيفات الحقيقية بأول ميزتين
+# (a) Actual classifications with first two features
 plt.subplot(1, 3, 1)
 plt.scatter(X_scaled.iloc[:, 0], X_scaled.iloc[:, 1], c=y_clean, cmap='viridis')
 plt.title('True classes (first 2 features)')
 plt.xlabel(X_scaled.columns[0]); plt.ylabel(X_scaled.columns[1])
 
-# (ب) نتايج KMeans
+# (b) KMeans results
 plt.subplot(1, 3, 2)
 plt.scatter(X_scaled.iloc[:, 0], X_scaled.iloc[:, 1], c=clusters, cmap='rainbow')
 plt.title('KMeans clusters (k=3)')
 plt.xlabel(X_scaled.columns[0]); plt.ylabel(X_scaled.columns[1])
 
-# (ج) تنبؤات Logistic Regression على مجموعة الاختبار (مع أول ميزتين فقط)
+#(c) Logistic Regression predictions on the test set (with only the first two features)
 plt.subplot(1, 3, 3)
 plt.scatter(X_test.iloc[:, 0], X_test.iloc[:, 1], c=y_pred_log, cmap='viridis', marker='o', edgecolors='k')
 plt.title('Test set predicted by LR')
@@ -112,3 +111,4 @@ plt.xlabel(X_scaled.columns[0]); plt.ylabel(X_scaled.columns[1])
 
 plt.tight_layout()
 plt.show()
+

@@ -112,3 +112,4 @@ plt.xlabel(X_scaled.columns[0]); plt.ylabel(X_scaled.columns[1])
 plt.tight_layout()
 plt.show()
 
+
